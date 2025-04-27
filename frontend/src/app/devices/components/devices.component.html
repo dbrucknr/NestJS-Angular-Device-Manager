@@ -26,8 +26,7 @@
                 </tr>
               </thead>
               <tbody>
-                @if (devices) {
-                  @for (device of devices.devices; track device.id) {
+                  @for (device of devices(); track device.id) {
                     <tr (click)="onDeviceSelected(device)" class="cursor-pointer hover:bg-gray-50">
                       <td class="whitespace-nowrap border-b border-gray-200 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8">{{ device.serialNumber }}</td>
                       <td class="hidden whitespace-nowrap border-b border-gray-200 px-3 py-4 text-sm text-gray-500 sm:table-cell">{{ device.macAddress}}</td>
@@ -38,13 +37,10 @@
                         <a href="#" class="text-blue-600 hover:text-blue-900">Edit<span class="sr-only">, Lindsay Walton</span></a>
                       </td>
                   </tr>   
-                  }
                 }
               </tbody>
             </table>
           </div>
-
-          
         </div>
       </div>
     </div>

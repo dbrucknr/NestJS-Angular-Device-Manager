@@ -1,17 +1,17 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition,
-} from '@angular/animations';
-import { DevicesService } from '@/app/devices/devices.service';
+  Component,
+  ChangeDetectionStrategy,
+  input,
+  computed,
+} from '@angular/core';
+import { trigger, style, animate, transition } from '@angular/animations';
+import { DevicesService } from '@/app/devices/services/devices.service';
 import { PaginatedDeviceResponse, Device } from '@/app/devices/devices.types';
 import { globalSignal, selectedDeviceSignal } from '@/app/global/signals';
 
 @Component({
   selector: 'app-devices',
+  standalone: true,
   templateUrl: './devices.component.html',
   // imports: [RouterLink],
   providers: [DevicesService],
@@ -26,7 +26,8 @@ import { globalSignal, selectedDeviceSignal } from '@/app/global/signals';
   ],
 })
 export class DevicesComponent {
-  @Input({ required: true }) devices!: PaginatedDeviceResponse;
+  readonly response = input<PaginatedDeviceResponse>();
+  readonly devices = computed(() => this.response()?.devices ?? []);
 
   onDeviceSelected(device: Device) {
     console.log('Device selected:', device);

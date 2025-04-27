@@ -6,7 +6,7 @@ import {
 } from '@angular/router';
 import { delay, finalize, map, catchError } from 'rxjs/operators';
 import { LoadingDataService } from '@/app/global/loading-data.service';
-import { DevicesService } from '@/app/devices/devices.service';
+import { DevicesService } from '@/app/devices/services/devices.service';
 import { PaginatedDeviceResponse } from '@/app/devices/devices.types';
 
 @Injectable({
