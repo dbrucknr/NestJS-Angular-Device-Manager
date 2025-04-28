@@ -27,30 +27,23 @@ export class DevicesService {
         `http://localhost:3000/devices?page=${page}&limit=${limit}`
       )
       .pipe(
-        map((data: PaginatedDeviceResponse) => {
-          // Perform Validation Here (with Dto)
-          return data;
-        }),
         catchError((error) => {
-          console.error('Error fetching devices:', error);
-          return throwError(() => new Error('Error Processing Devices'));
-        }),
-        finalize(() => {
-          console.log('Loading devices finished');
+          console.error('Service layer failure.', error);
+          return throwError(() => new Error('Error Fetching Devices'));
         })
       );
   }
 
-  getDevice(id: number): Observable<Device> {
-    return this.http.get<Device>(`http://localhost:3000/devices/${id}`).pipe(
-      map((data: Device) => {
-        // Perform Validation Here (with Dto)
-        return data;
-      }),
-      catchError((error) => {
-        console.error('Error fetching device:', error);
-        return throwError(() => new Error('Error Processing Device'));
-      })
-    );
-  }
+  // getDevice(id: number): Observable<Device> {
+  //   return this.http.get<Device>(`http://localhost:3000/devices/${id}`).pipe(
+  //     map((data: Device) => {
+  //       // Perform Validation Here (with Dto)
+  //       return data;
+  //     }),
+  //     catchError((error) => {
+  //       console.error('Error fetching device:', error);
+  //       return throwError(() => new Error('Error Processing Device'));
+  //     })
+  //   );
+  // }
 }

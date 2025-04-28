@@ -4,9 +4,10 @@ import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
 } from '@angular/router';
-import { delay, finalize, map, catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+import { finalize, catchError } from 'rxjs/operators';
 import { LoadingDataService } from '@/app/global/loading-data.service';
-import { DevicesService } from '@/app/devices/services/devices.service';
+import { DevicesController } from '@/app/devices/controllers/devices.controller';
 import { PaginatedDeviceResponse } from '@/app/devices/devices.types';
 
 @Injectable({
@@ -14,32 +15,26 @@ import { PaginatedDeviceResponse } from '@/app/devices/devices.types';
 })
 export class DevicesDataResolver implements Resolve<PaginatedDeviceResponse> {
   constructor(
-    private devicesService: DevicesService,
+    private devicesController: DevicesController,
     private loadingDataService: LoadingDataService
   ) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    this.loadingDataService.showLoader();
     // Ensure the route has query parameters
     const queryParams = route.queryParams;
     const page = queryParams['page'] || 1;
     const pageSize = queryParams['limit'] || 10;
 
-    this.loadingDataService.showLoader();
-    console.log('Loading devices...');
-    return this.devicesService.getDevices(page, pageSize).pipe(
-      map((data: PaginatedDeviceResponse) => {
-        // Perform Validation Here (with Dto)
-        console.log('Devices loaded:', data);
-        return data;
-      }),
+    return this.devicesController.getDevices(page, pageSize).pipe(
       catchError((error) => {
-        console.error('Error fetching devices:', error);
-        throw new Error('Error Processing Devices');
+        return throwError(
+          () => new Error('Could Not Resolve Device Data. ' + error)
+        );
       }),
       finalize(() => {
         this.loadingDataService.hideLoader();
         console.log('Loading devices finished');
-        return;
       })
     );
   }
