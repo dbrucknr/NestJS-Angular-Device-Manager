@@ -8,6 +8,7 @@ import {
   Delete,
   Query,
   UseFilters,
+  UseGuards,
   Logger,
 } from '@nestjs/common';
 import {
@@ -16,12 +17,12 @@ import {
   ApiNotFoundResponse,
 } from '@nestjs/swagger';
 import { DeviceResponseDto } from '@modules/devices/dto/device-response.dto';
-// import { DeviceResponseDto } from '@/modules/devices/dto/device-response.dto';
 import { DevicesService } from '@modules/devices/services/devices.service';
 import { CreateDeviceDto } from '@modules/devices/dto/create-device.dto';
 import { UpdateDeviceDto } from '@modules/devices/dto/update-device.dto';
 import { PaginationQueryDto } from '@modules/devices/dto/pagination-query.dto';
 import { FindAllDeviceResponseDto } from '@modules/devices/dto/find-all-device-response.dto';
+import { AuthenticatedGuard } from '@modules/auth/guards/authenticated.guard';
 // import { CONSTANTS } from '@modules/devices/constants/controller.constants';
 import { EntityNotFoundFilter } from '@/app/global/errors/entity-not-found.filter';
 import { EntityNotFoundResponseDto } from '@/app/global/dto/entity-not-found.dto';
@@ -60,6 +61,9 @@ export class DevicesController {
       'Returns a paginated list of all devices registered in the system.',
   })
   @ApiOkResponse({ type: FindAllDeviceResponseDto })
+  // Guards:
+  @UseGuards(AuthenticatedGuard)
+  // Handler:
   findAll(@Query() paginationQueryDto: PaginationQueryDto) {
     return this.devicesService.findAll(paginationQueryDto);
   }

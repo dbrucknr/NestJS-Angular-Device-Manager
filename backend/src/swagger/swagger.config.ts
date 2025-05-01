@@ -3,7 +3,8 @@ import { SWAGGER_UI_CONSTANTS } from './swagger.constants';
 export class SwaggerConfig {
   //   constructor(private readonly applicationUrl: string = "http://localhost:3000/docs") {}
 
-  private applicationUrl = process.env.APP_URL || 'http://localhost:3000';
+  private applicationUrl =
+    process.env.APP_URL || 'http://localhost:3000/api/v1';
   private customSiteTitle = 'Documentation';
   private faviconFilename = 'favicon.ico';
   private topbarIconFilename = 'ITS_signature-marketing-stacked-2.svg';

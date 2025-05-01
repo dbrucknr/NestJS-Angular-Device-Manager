@@ -16,9 +16,6 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     logger: new ConsoleLogger(),
   });
-  // Swagger API Docs Configuration:
-  const docs = new SwaggerDocument(app);
-  docs.initialize();
   // CORS Configuration:
   app.enableCors({ origin: 'http://localhost:4200', credentials: true });
   app.setGlobalPrefix('api');
@@ -38,6 +35,9 @@ async function bootstrap() {
     passport.initialize(),
     passport.session(),
   );
+  // Swagger API Docs Configuration:
+  const docs = new SwaggerDocument(app);
+  docs.initialize();
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap().catch((err) => {
