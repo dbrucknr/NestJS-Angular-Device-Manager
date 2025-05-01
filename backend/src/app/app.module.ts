@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ServeStaticModule } from '@nestjs/serve-static';
 // Local Dependencies
+import { AuthModule } from '@modules/auth/auth.module';
 import { Device } from '@modules/devices/entities/device.entity';
 import { DeviceChangelog } from '@modules/devices/entities/device-changelog.entity';
 import { DevicesModule } from '@modules/devices/devices.module';
@@ -15,9 +16,10 @@ import { DeviceFixtures } from '@modules/devices/fixtures/device.fixtures';
   imports: [
     // Local Modules:
     DevicesModule,
-    // Database ORM:
+    AuthModule,
+    // Database ORM (Consider moving to a separate module):
     TypeOrmModule.forRootAsync({
-      useFactory: async () => ({
+      useFactory: () => ({
         type: 'sqlite',
         database: 'db.sqlite',
         entities: [Device, DeviceChangelog],

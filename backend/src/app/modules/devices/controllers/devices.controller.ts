@@ -8,6 +8,7 @@ import {
   Delete,
   Query,
   UseFilters,
+  Logger,
 } from '@nestjs/common';
 import {
   ApiOkResponse,
@@ -29,8 +30,13 @@ import { EntityNotFoundResponseDto } from '@/app/global/dto/entity-not-found.dto
  * @description Handles the Requests / Responses for devices
  * @class
  */
-@Controller('devices')
+@Controller({
+  path: 'devices',
+  version: '1',
+})
 export class DevicesController {
+  private readonly logger = new Logger(DevicesController.name);
+
   constructor(private readonly devicesService: DevicesService) {}
 
   // Route Definition:
@@ -83,6 +89,7 @@ export class DevicesController {
   })
   @ApiOkResponse({ type: DeviceResponseDto })
   @ApiNotFoundResponse({ type: EntityNotFoundResponseDto })
+  // Handler:
   update(@Param('id') id: string, @Body() updateDeviceDto: UpdateDeviceDto) {
     return this.devicesService.update(+id, updateDeviceDto);
   }
