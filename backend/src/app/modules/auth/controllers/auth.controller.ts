@@ -1,6 +1,5 @@
 import { Get, Controller, Req, Redirect, UseGuards } from '@nestjs/common';
 import type { Request } from 'express';
-
 import { AuthService } from '@modules/auth/services/auth.service';
 import { ShibbolethGuard } from '@modules/auth/guards/shibboleth.guard';
 
@@ -26,9 +25,15 @@ export class AuthController {
   callback(@Req() request: Request) {
     const user = request.user;
     // Not 100% sure this actually does anything...does passport handle this for me?
+
+    // Perhaps I should select the base URL from the request and redirect to that instead of hardcoding it
+    // Could I also extract the original URL from the request and redirect to that instead of hardcoding it?
+    // I think this might introduce a loop, since the callback comes from shibb login page...
+    const redirectUrl = request.headers.referer || 'http://localhost:4200';
+
     if (user) {
       // request.session.user = user;
-      return { message: 'Login successful', user };
+      return { message: 'Login successful', user, url: redirectUrl };
     } else {
       return { message: 'Login failed' };
     }

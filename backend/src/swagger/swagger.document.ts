@@ -1,8 +1,8 @@
-import { INestApplication } from '@nestjs/common';
+// import { INestApplication } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { SwaggerConfig } from './swagger.config';
-import { _SWAGGER_TAGS } from './swagger.constants';
+// import { _SWAGGER_TAGS } from './swagger.constants';
 
 export class SwaggerDocument {
   constructor(private readonly app: NestExpressApplication) {}
@@ -11,17 +11,7 @@ export class SwaggerDocument {
     const docBuilder = new DocumentBuilder()
       .setTitle('Network Infrastructure Backend')
       .setDescription('Entrypoint for the Network Infrastructure Backend API')
-      .setVersion('1.0')
-      .addBasicAuth()
-      .addBearerAuth(
-        {
-          bearerFormat: 'Bearer',
-          scheme: 'Bearer',
-          type: 'http',
-          in: 'Header',
-        },
-        'JWTAuthorization',
-      );
+      .setVersion('1.0');
 
     // _SWAGGER_TAGS.forEach((tag) => {
     //   docBuilder.addTag(tag.name, tag.description);

@@ -51,19 +51,39 @@ export class SessionSerializer extends PassportSerializer {
     // Check the shape of the user object being checked in the session
     if (!isShibbolethUser(user)) {
       this.logger.error('Invalid user object:', user);
-      return done(new Error('Invalid user object'), null);
+      return done(new Error('Invalid user object'), null); // Will Trigger a Server 500 Catch
     }
     // Validate the user object's properties against some defined rules using class-validator + dto
     const shibbolethUser = plainToInstance(ShibbolethUserDto, user);
     const errors = await validate(shibbolethUser);
     if (errors.length > 0) {
       this.logger.error('Validation errors:', errors);
-      return done(new Error('Validation failed'), null);
+      return done(new Error('Validation failed'), null); // Will Trigger a Server 500 Catch
     }
 
     // TODO: Check the database for the user identity (pass to done)
+    // Perhaps this should be an eventEmitter signal to perform the database check?
 
     // Deserialize the user object
     done(null, user);
+  }
+
+  applyTypeGuard(user: any) {
+    if (isShibbolethUser(user)) {
+      return user;
+    } else {
+      throw new Error('Invalid user object');
+    }
+  }
+
+  validateUserObject(user: ShibbolethUser) {
+    const shibbolethUser = plainToInstance(ShibbolethUserDto, user);
+    return validate(shibbolethUser).then((errors) => {
+      if (errors.length > 0) {
+        this.logger.error('Validation errors:', errors);
+        throw new Error('Validation failed');
+      }
+      return shibbolethUser;
+    });
   }
 }
