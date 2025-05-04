@@ -10,7 +10,6 @@ import { apiReference } from '@scalar/nestjs-api-reference';
 
 // Local Imports:
 import { AppModule } from '@/app/app.module';
-// import { SwaggerDocument } from '@/swagger/swagger.document';
 
 // To view Project Structure / Graph in Browser: npx @compodoc/compodoc -p tsconfig.json -s (http://127.0.0.1:8080/index.html)
 // API Endpoint definitions: GET http://localhost:3000/docs
