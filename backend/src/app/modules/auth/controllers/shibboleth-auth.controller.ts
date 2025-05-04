@@ -15,7 +15,7 @@ import { ShibbolethGuard } from '@modules/auth/guards/shibboleth.guard';
   path: 'auth',
   version: '1',
 })
-export class AuthController {
+export class ShibbolethAuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Get()
