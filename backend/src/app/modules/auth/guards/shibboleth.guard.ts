@@ -1,6 +1,6 @@
 import { Injectable, ExecutionContext } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { Request } from 'express';
+import type { Request } from 'express';
 import { OPENIDCONNECT } from '@modules/auth/constants/auth.constants';
 
 // I need to check if this pattern actually works
