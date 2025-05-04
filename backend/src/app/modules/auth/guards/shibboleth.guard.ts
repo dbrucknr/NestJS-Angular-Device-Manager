@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  ExecutionContext,
-  // UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, ExecutionContext } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
 import { OPENIDCONNECT } from '@modules/auth/constants/auth.constants';
@@ -17,14 +13,5 @@ export class ShibbolethGuard extends AuthGuard(OPENIDCONNECT) {
     const request = context.switchToHttp().getRequest<Request>();
     await super.logIn(request);
     return result;
-    // if (request.isAuthenticated()) {
-    //   return result;
-    // }
-
-    // if (request.user) {
-    //   await super.logIn(request);
-    //   return result;
-    // }
-    // throw new UnauthorizedException();
   }
 }

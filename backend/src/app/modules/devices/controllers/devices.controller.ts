@@ -22,15 +22,17 @@ import { CreateDeviceDto } from '@modules/devices/dto/create-device.dto';
 import { UpdateDeviceDto } from '@modules/devices/dto/update-device.dto';
 import { PaginationQueryDto } from '@modules/devices/dto/pagination-query.dto';
 import { FindAllDeviceResponseDto } from '@modules/devices/dto/find-all-device-response.dto';
-import { AuthenticatedGuard } from '@modules/auth/guards/authenticated.guard';
+import { AuthenticatedGuard } from '@/app/global/guards/authenticated.guard';
 // import { CONSTANTS } from '@modules/devices/constants/controller.constants';
 import { EntityNotFoundFilter } from '@/app/global/errors/entity-not-found.filter';
+import { UnauthorizedFilter } from '@/app/global/errors/unauthorized.filter';
 import { EntityNotFoundResponseDto } from '@/app/global/dto/entity-not-found.dto';
 /**
  * DevicesController
  * @description Handles the Requests / Responses for devices
  * @class
  */
+@UseFilters(UnauthorizedFilter)
 @Controller({
   path: 'devices',
   version: '1',

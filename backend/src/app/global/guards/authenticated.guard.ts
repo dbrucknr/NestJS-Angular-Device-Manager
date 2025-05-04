@@ -1,9 +1,15 @@
-import { Injectable, ExecutionContext, CanActivate } from '@nestjs/common';
+import {
+  Injectable,
+  ExecutionContext,
+  CanActivate,
+  Logger,
+} from '@nestjs/common';
 import { Request } from 'express';
 
-// I think this can be moved into a global guard
 @Injectable()
 export class AuthenticatedGuard implements CanActivate {
+  private readonly logger = new Logger(AuthenticatedGuard.name);
+
   canActivate(context: ExecutionContext): boolean | Promise<boolean> {
     const httpContext = context.switchToHttp();
     const request = httpContext.getRequest<Request>();

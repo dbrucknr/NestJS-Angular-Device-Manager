@@ -18,6 +18,7 @@ export class ShibbolethStrategy extends PassportStrategy(
 
   validate(issuer: string, profile: Profile, verify: VerifyCallback) {
     return verify(null, profile, {
+      message: 'User authenticated successfully',
       issuer,
       profile,
     });
