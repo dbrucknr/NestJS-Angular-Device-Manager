@@ -24,8 +24,8 @@ function isLocalUser(response: any): response is ShibbolethUser {
 
   const data = response as Record<string, unknown>;
   return (
-    typeof data.username === 'string' &&
-    typeof data.name === 'string' &&
+    typeof data.id === 'string' &&
+    typeof data.email === 'string' &&
     typeof data.password === 'undefined'
   );
 }
@@ -45,6 +45,7 @@ export class SessionSerializer extends PassportSerializer {
         this.logger.error('Validation errors:', errors);
         return done(new Error('Validation failed'), null);
       }
+      return done(null, shibbolethUser);
     }
 
     if (isLocalUser(user)) {
@@ -71,6 +72,7 @@ export class SessionSerializer extends PassportSerializer {
         this.logger.error('Validation errors:', errors);
         return done(new Error('Validation failed'), null); // Will Trigger a Server 500 Catch
       }
+      return done(null, shibbolethUser);
     }
 
     if (isLocalUser(user)) {

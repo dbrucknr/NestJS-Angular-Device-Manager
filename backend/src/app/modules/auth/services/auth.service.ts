@@ -4,24 +4,25 @@ import { JwtService } from '@nestjs/jwt';
 @Injectable()
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
+  // Mock database (for PoC)
   private readonly localUsers = [
     {
-      username: 'dbrucknr',
-      name: 'Derek Bruckner',
+      id: 'dbrucknr',
+      email: 'dbrucknr@umich.edu',
       password: 'change-me',
     },
   ];
 
   constructor(private readonly jwtService: JwtService) {}
 
-  findOne(username: string) {
-    return this.localUsers.find((user) => user.username === username);
+  findOne(email: string) {
+    return this.localUsers.find((user) => user.email === email);
   }
 
   validateUser(
     id: string,
     password: string,
-  ): { username: string; name: string } | null {
+  ): { email: string; id: string } | null {
     const user = this.findOne(id);
     if (user && user.password === password) {
       const filteredUser = { ...user, password: undefined };

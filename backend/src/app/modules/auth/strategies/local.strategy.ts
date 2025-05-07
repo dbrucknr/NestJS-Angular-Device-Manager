@@ -8,13 +8,16 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   private readonly logger = new Logger(LocalStrategy.name);
 
   constructor(private readonly authService: AuthService) {
-    super();
+    super({
+      usernameField: 'email', // Use 'email' instead of 'username'
+      // passwordField: 'secret', // Use 'secret' instead of 'password'
+    });
   }
 
-  validate(username: string, password: string) {
+  validate(email: string, password: string) {
     this.logger.log('Validating user credentials');
-    const user: { username: string; name: string } | null =
-      this.authService.validateUser(username, password);
+    const user: { id: string; email: string } | null =
+      this.authService.validateUser(email, password);
     if (!user) throw new UnauthorizedException();
 
     return user;
