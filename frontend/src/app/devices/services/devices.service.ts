@@ -24,7 +24,8 @@ export class DevicesService {
   getDevices(page: number, limit: number): Observable<PaginatedDeviceResponse> {
     return this.http
       .get<PaginatedDeviceResponse>(
-        `http://localhost:3000/devices?page=${page}&limit=${limit}`
+        `http://localhost:3000/api/v1/devices?page=${page}&limit=${limit}`,
+        { withCredentials: true }
       )
       .pipe(
         catchError((error) => {

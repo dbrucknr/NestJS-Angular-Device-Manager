@@ -3,6 +3,8 @@
 # Compodoc
 /documentation
 
+*env
+
 # Compiled output
 /dist
 /tmp
